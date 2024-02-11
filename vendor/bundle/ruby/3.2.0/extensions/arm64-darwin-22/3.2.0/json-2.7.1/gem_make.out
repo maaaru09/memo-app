@@ -1,0 +1,16 @@
+current directory: /Users/hirokiakimaru/Desktop/FBC/Ruby/memo/vendor/bundle/ruby/3.2.0/gems/json-2.7.1/ext/json
+/Users/hirokiakimaru/.rbenv/versions/3.2.2/bin/ruby extconf.rb
+creating Makefile
+
+current directory: /Users/hirokiakimaru/Desktop/FBC/Ruby/memo/vendor/bundle/ruby/3.2.0/gems/json-2.7.1/ext/json
+make DESTDIR\= sitearchdir\=./.gem.20240209-22312-zrr8em sitelibdir\=./.gem.20240209-22312-zrr8em clean
+
+current directory: /Users/hirokiakimaru/Desktop/FBC/Ruby/memo/vendor/bundle/ruby/3.2.0/gems/json-2.7.1/ext/json
+make DESTDIR\= sitearchdir\=./.gem.20240209-22312-zrr8em sitelibdir\=./.gem.20240209-22312-zrr8em
+make: Nothing to be done for `all'.
+
+current directory: /Users/hirokiakimaru/Desktop/FBC/Ruby/memo/vendor/bundle/ruby/3.2.0/gems/json-2.7.1/ext/json
+make DESTDIR\= sitearchdir\=./.gem.20240209-22312-zrr8em sitelibdir\=./.gem.20240209-22312-zrr8em install
+
+current directory: /Users/hirokiakimaru/Desktop/FBC/Ruby/memo/vendor/bundle/ruby/3.2.0/gems/json-2.7.1/ext/json
+make DESTDIR\= sitearchdir\=./.gem.20240209-22312-zrr8em sitelibdir\=./.gem.20240209-22312-zrr8em clean
