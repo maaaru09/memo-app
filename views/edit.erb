@@ -1,0 +1,18 @@
+<h2>メモ編集</h2>
+<% @memos.each do |key, memo| %>
+  <% if key == @memo_id %>
+    <% title = memo['title'] %>
+    <% content = memo['content'] %>
+    <form action="/memos/<%= @memo_id %>" method="post">
+    <h3>タイトル</h3>
+    <input type="text" name="title" value="<%= h(title) %>">
+    <h3>本文</h3>
+    <textarea name="content"><%= h(content) %></textarea>
+  <% end %>
+<% end %>
+
+<br>
+<input type="hidden" name="_method" value="PATCH">
+<input type="submit" value="保存">
+<button><a href="/memos">キャンセル</a></button>
+</form>

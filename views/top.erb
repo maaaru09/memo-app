@@ -1,0 +1,9 @@
+  <h2>メモ一覧</h2>
+  <ul>
+    <% @memos.each do |key, memo| %>
+      <li>
+        <p><a href='/memos/<%= key %>'><%= h(memo["title"]) %></a></p>
+      </li>
+    <% end %>
+  </ul>
+  <button input type="submit"><a href="/memos/new">新規作成</a></button>
