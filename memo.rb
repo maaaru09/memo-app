@@ -10,15 +10,25 @@ helpers do
   end
 end
 
-MEMO_FILE = 'public/memos.json'
-
-def memos(memo_file)
-  File.open(memo_file, 'r') { |file| JSON.parse(file.read) }
+def memos
+  File.open('public/memos.json', 'r') { |file| JSON.parse(file.read) }
 end
 
-def memo_write(memo_file, memos)
-  File.open(memo_file, 'w') do |file|
+def write_memos(memos)
+  File.open('public/memos.json', 'w') do |file|
     file.write(JSON.pretty_generate(memos))
+  end
+end
+
+def show_memos
+  @memo_id = params[:memo_id]
+  @memos = memos
+
+  @memos.each do |key, memo|
+    if key == @memo_id
+      @title = memo['title']
+      @content = memo['content']
+    end
   end
 end
 
@@ -26,8 +36,8 @@ get '/' do
   redirect '/memos'
 end
 
-get '/memos/?' do
-  @memos = memos(MEMO_FILE)
+get '/memos' do
+  @memos = memos
   erb :top
 end
 
@@ -36,48 +46,44 @@ get '/memos/new' do
 end
 
 get '/memos/:memo_id' do
-  @memo_id = params[:memo_id]
-  @memos = memos(MEMO_FILE)
+  show_memos
   erb :show
 end
 
 get '/memos/:memo_id/edit' do
-  @memo_id = params[:memo_id]
-  @memos = memos(MEMO_FILE)
+  show_memos
   erb :edit
 end
 
 post '/memos/new' do
-  memos = memos(MEMO_FILE)
+  memo = memos
 
-  latest_key = memos.keys.map(&:to_i).max + 1
-  memos[latest_key] = {
+  latest_key = memo.keys.map(&:to_i).max + 1
+  memo[latest_key] = {
     'title' => params[:title],
     'content' => params[:content]
   }
 
-  memo_write(MEMO_FILE, memos)
+  write_memos(memo)
   redirect '/'
 end
 
 patch '/memos/:memo_id' do
-  memo_id = params[:memo_id]
-  memos = memos(MEMO_FILE)
+  memo = memos
 
-  memos[memo_id] = {
+  memo[params[:memo_id]] = {
     'title' => params[:title],
     'content' => params[:content]
   }
 
-  memo_write(MEMO_FILE, memos)
+  write_memos(memo)
   redirect '/'
 end
 
 delete '/memos/:memo_id' do
-  memo_id = params[:memo_id]
-  memos = memos(MEMO_FILE)
+  memo = memos
 
-  memos.delete(memo_id)
-  memo_write(MEMO_FILE, memos)
+  memo.delete(params[:memo_id])
+  write_memos(memo)
   redirect '/'
 end

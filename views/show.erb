@@ -1,14 +1,8 @@
 <h2>メモ詳細</h2>
-<% @memos.each do |key, memo| %>
-    <% if key == @memo_id %>
-      <% title = memo['title'] %>
-      <% content = memo['content'] %>
-      <ul><h3>タイトル:</h3>
-      <p><%= h(title) %></p></ul>
-      <ul><h3>内容:</h3>
-      <p><%= h(content).gsub(/\n/, '<br/>') %></p></ul>
-    <% end %>
-<% end %>
+<ul><h3>タイトル:</h3>
+<p><%= h(@title) %></p></ul>
+<ul><h3>内容:</h3>
+<p><%= h(@content).gsub(/\n/, '<br/>') %></p></ul>
 
 <form action="/memos/<%= @memo_id %>" method="post">
     <input type="hidden" name="_method" value="DELETE">
@@ -16,4 +10,4 @@
 </form>
 
 <button input type="submit"><a href="/memos/<%= @memo_id %>/edit">編集</a></button>
-<button input type="submit"><a href="/memos/">戻る</a></button>
+<button input type="submit"><a href="/memos">戻る</a></button>
