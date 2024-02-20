@@ -22,14 +22,7 @@ end
 
 def show_memos
   @memo_id = params[:memo_id]
-  @memos = memos
-
-  @memos.each do |key, memo|
-    if key == @memo_id
-      @title = memo['title']
-      @content = memo['content']
-    end
-  end
+  @memo = memos[@memo_id]
 end
 
 get '/' do

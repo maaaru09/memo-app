@@ -1,8 +1,8 @@
 <h2>メモ詳細</h2>
 <ul><h3>タイトル:</h3>
-<p><%= h(@title) %></p></ul>
+<p><%= h(@memo['title']) %></p></ul>
 <ul><h3>内容:</h3>
-<p><%= h(@content).gsub(/\n/, '<br/>') %></p></ul>
+<p><%= h(@memo['content']).gsub(/\n/, '<br/>') %></p></ul>
 
 <form action="/memos/<%= @memo_id %>" method="post">
     <input type="hidden" name="_method" value="DELETE">

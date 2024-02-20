@@ -1,9 +1,9 @@
 <h2>メモ編集</h2>
 <form action="/memos/<%= @memo_id %>" method="post">
 <h3>タイトル</h3>
-<input type="text" name="title" value="<%= h(@title) %>">
+<input type="text" name="title" value="<%= h(@memo['title']) %>">
 <h3>本文</h3>
-<textarea name="content"><%= h(@content) %></textarea>
+<textarea name="content"><%= h(@memo['content']) %></textarea>
 
 <br>
 <input type="hidden" name="_method" value="PATCH">
