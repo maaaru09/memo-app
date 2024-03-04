@@ -4,10 +4,10 @@
 <ul><h3>内容:</h3>
 <p><%= h(@memo['content']).gsub(/\n/, '<br/>') %></p></ul>
 
-<form action="/memos/<%= @memo_id %>" method="post">
+<form action="/memos/<%= @memo['id'] %>" method="post">
     <input type="hidden" name="_method" value="DELETE">
     <input type="submit" value="削除">
 </form>
 
-<button input type="submit"><a href="/memos/<%= @memo_id %>/edit">編集</a></button>
+<button input type="submit"><a href="/memos/<%= @memo['id'] %>/edit">編集</a></button>
 <button input type="submit"><a href="/memos">戻る</a></button>

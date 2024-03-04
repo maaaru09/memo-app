@@ -9,3 +9,4 @@ gem "sinatra-contrib", "~> 4.0"
 gem "rackup", "~> 2.1"
 gem "erb_lint", require: false
 gem "parser", "3.2.2"
+gem "pg"
