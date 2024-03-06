@@ -4,7 +4,8 @@ require 'sinatra'
 require 'sinatra/reloader'
 require 'pg'
 
-CONNECT_DB = PG.connect(dbname: 'my_memo')
+DB_NAME = 'my_memo'
+DB = PG.connect(dbname: DB_NAME)
 
 helpers do
   def h(text)
@@ -14,7 +15,7 @@ end
 
 def show_memo
   memo_id = params[:memo_id].to_i
-  CONNECT_DB.exec_params('SELECT * FROM memos WHERE id = $1', [memo_id])
+  DB.exec_params('SELECT * FROM memos WHERE id = $1', [memo_id])
 end
 
 get '/' do
@@ -22,7 +23,7 @@ get '/' do
 end
 
 get '/memos' do
-  @memos = CONNECT_DB.exec('SELECT * FROM memos ORDER BY id')
+  @memos = DB.exec('SELECT * FROM memos ORDER BY id')
   erb :top
 end
 
@@ -44,7 +45,7 @@ post '/memos/new' do
   title = params['title']
   content = params['content']
 
-  CONNECT_DB.exec_params('INSERT INTO memos (title, content) VALUES ($1, $2)', [title, content])
+  DB.exec_params('INSERT INTO memos (title, content) VALUES ($1, $2)', [title, content])
   redirect '/'
 end
 
@@ -53,13 +54,13 @@ patch '/memos/:memo_id' do
   content = params['content']
   memo_id = params[:memo_id].to_i
 
-  @memo = CONNECT_DB.exec_params('UPDATE memos SET title = $1, content = $2 WHERE id = $3', [title, content, memo_id])
+  @memo = DB.exec_params('UPDATE memos SET title = $1, content = $2 WHERE id = $3', [title, content, memo_id])
   redirect '/'
 end
 
 delete '/memos/:memo_id' do
   memo_id = params[:memo_id].to_i
 
-  @memo = CONNECT_DB.exec_params('DELETE FROM memos WHERE id = $1', [memo_id])
+  @memo = DB.exec_params('DELETE FROM memos WHERE id = $1', [memo_id])
   redirect '/'
 end
