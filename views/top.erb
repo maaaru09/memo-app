@@ -1,8 +1,8 @@
   <h2>メモ一覧</h2>
   <ul>
-    <% @memos.each do |key, memo| %>
+    <% @memos.map do |memo| %>
       <li>
-        <p><a href='/memos/<%= key %>'><%= h(memo["title"]) %></a></p>
+        <p><a href='/memos/<%= memo['id'] %>'><%= h(memo['title']) %></a></p>
       </li>
     <% end %>
   </ul>

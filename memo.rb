@@ -2,7 +2,11 @@
 
 require 'sinatra'
 require 'sinatra/reloader'
-require 'json'
+require 'pg'
+
+configure do
+  set :db, PG.connect(dbname: 'my_memo')
+end
 
 helpers do
   def h(text)
@@ -10,19 +14,9 @@ helpers do
   end
 end
 
-def memos
-  File.open('public/memos.json', 'r') { |file| JSON.parse(file.read) }
-end
-
-def write_memos(memos)
-  File.open('public/memos.json', 'w') do |file|
-    file.write(JSON.pretty_generate(memos))
-  end
-end
-
-def show_memos
-  @memo_id = params[:memo_id]
-  @memo = memos[@memo_id]
+def show_memo
+  memo_id = params[:memo_id].to_i
+  settings.db.exec_params('SELECT * FROM memos WHERE id = $1', [memo_id])
 end
 
 get '/' do
@@ -30,7 +24,7 @@ get '/' do
 end
 
 get '/memos' do
-  @memos = memos
+  @memos = settings.db.exec('SELECT * FROM memos ORDER BY id')
   erb :top
 end
 
@@ -39,44 +33,35 @@ get '/memos/new' do
 end
 
 get '/memos/:memo_id' do
-  show_memos
+  @memo = show_memo.first
   erb :show
 end
 
 get '/memos/:memo_id/edit' do
-  show_memos
+  @memo = show_memo.first
   erb :edit
 end
 
 post '/memos/new' do
-  memo = memos
+  title = params['title']
+  content = params['content']
 
-  latest_key = memo.keys.map(&:to_i).max + 1
-  memo[latest_key] = {
-    'title' => params[:title],
-    'content' => params[:content]
-  }
-
-  write_memos(memo)
+  settings.db.exec_params('INSERT INTO memos (title, content) VALUES ($1, $2)', [title, content])
   redirect '/'
 end
 
 patch '/memos/:memo_id' do
-  memo = memos
+  title = params['title']
+  content = params['content']
+  memo_id = params[:memo_id].to_i
 
-  memo[params[:memo_id]] = {
-    'title' => params[:title],
-    'content' => params[:content]
-  }
-
-  write_memos(memo)
+  @memo = settings.db.exec_params('UPDATE memos SET title = $1, content = $2 WHERE id = $3', [title, content, memo_id])
   redirect '/'
 end
 
 delete '/memos/:memo_id' do
-  memo = memos
+  memo_id = params[:memo_id].to_i
 
-  memo.delete(params[:memo_id])
-  write_memos(memo)
+  @memo = settings.db.exec_params('DELETE FROM memos WHERE id = $1', [memo_id])
   redirect '/'
 end
